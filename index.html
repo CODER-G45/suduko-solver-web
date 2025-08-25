@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Solver</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Dark Mode Toggle -->
+  <div class="toggle-container">
+    <label class="switch">
+      <input type="checkbox" id="darkModeToggle">
+      <span class="slider round"></span>
+    </label>
+    <span class="toggle-label">Dark Mode</span>
+  </div>
+
+  <h1>Sudoku Solver</h1>
+  <div id="sudoku-grid"></div>
+
+  <!-- Buttons -->
+  <div class="controls">
+    <button onclick="solveSudoku()">Solve</button>
+    <button onclick="clearGrid()">Clear</button>
+    <button class="reset-btn" onclick="resetGrid()">Reset</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
