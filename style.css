@@ -27,15 +27,30 @@ h1 {
   margin: 20px 0;
 }
 
+/* Sudoku Grid */
+/* Grid wrapper: 3×3 big boxes */
 #sudoku-grid {
   display: grid;
-  grid-template-columns: repeat(9, 40px);
-  grid-template-rows: repeat(9, 40px);
-  gap: 0;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 3px; /* space between big boxes */
+  margin: 20px auto;
+  background: var(--grid-line);
+  padding: 3px;
+}
+
+
+/* Big 3×3 box */
+.sudoku-box {
+  display: grid;
+  grid-template-columns: repeat(3, 40px);
+  grid-template-rows: repeat(3, 40px);
+  gap: 1px; /* thin lines inside box */
   border: 3px solid var(--grid-line);
 }
 
-#sudoku-grid input {
+/* Each input cell */
+.sudoku-box input {
   width: 40px;
   height: 40px;
   text-align: center;
@@ -43,17 +58,15 @@ h1 {
   border: 1px solid var(--grid-line);
   background: var(--bg-color);
   color: var(--text-color);
-  transition: background 0.4s, color 0.4s, border 0.4s;
+  transition: background 0.3s, color 0.3s;
 }
 
-#sudoku-grid input:focus {
-  outline: 2px solid #4CAF50;
-}
 
+/* Controls */
 .controls {
   margin-top: 20px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 button {
@@ -62,30 +75,47 @@ button {
   border: none;
   cursor: pointer;
   border-radius: 6px;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.2s;
 }
 
 button:hover {
   opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.solve-btn {
+  background: #2ecc71;
+  color: #fff;
+}
+.solve-btn:hover {
+  background: #27ae60;
+}
+
+.clear-btn {
+  background: #95a5a6;
+  color: #fff;
+}
+.clear-btn:hover {
+  background: #7f8c8d;
 }
 
 .reset-btn {
   background: #e74c3c;
   color: #fff;
 }
-
 .reset-btn:hover {
   background: #c0392b;
 }
 
-/* Thicker 3x3 borders */
-#sudoku-grid input:nth-child(3n+1) {
-  border-left: 3px solid var(--grid-line);
+/* Given numbers (locked cells) */
+#sudoku-grid input.given {
+  font-weight: bold;
+  background: #ddd;
+  color: #000;
 }
-#sudoku-grid input:nth-child(n+19):nth-child(-n+27),
-#sudoku-grid input:nth-child(n+46):nth-child(-n+54),
-#sudoku-grid input:nth-child(n+73):nth-child(-n+81) {
-  border-top: 3px solid var(--grid-line);
+body.dark-mode #sudoku-grid input.given {
+  background: #333;
+  color: #fff;
 }
 
 /* Toggle Button */
