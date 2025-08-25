@@ -1,17 +1,27 @@
-// Generate Sudoku Grid
+// === Generate Sudoku Grid ===
+// Generate Sudoku Grid with 9 big boxes
 const gridContainer = document.getElementById('sudoku-grid');
-for (let i = 0; i < 81; i++) {
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.maxLength = 1;
-  input.oninput = () => {
-    input.value = input.value.replace(/[^1-9]/g, '');
-  };
-  gridContainer.appendChild(input);
+
+for (let box = 0; box < 9; box++) {
+  const boxDiv = document.createElement('div');
+  boxDiv.classList.add('sudoku-box');
+
+  for (let cell = 0; cell < 9; cell++) {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.maxLength = 1;
+    input.oninput = () => {
+      input.value = input.value.replace(/[^1-9]/g, '');
+    };
+    boxDiv.appendChild(input);
+  }
+
+  gridContainer.appendChild(boxDiv);
 }
 
+
 function getGrid() {
-  const cells = document.querySelectorAll('#sudoku-grid input');
+  const cells = document.querySelectorAll("#sudoku-grid input");
   const grid = [];
   for (let i = 0; i < 9; i++) {
     grid.push([]);
@@ -23,13 +33,16 @@ function getGrid() {
   return grid;
 }
 
-function setGrid(grid) {
-  const cells = document.querySelectorAll('#sudoku-grid input');
+function setGrid(grid, lockInitial = false) {
+  const cells = document.querySelectorAll("#sudoku-grid input");
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       const index = i * 9 + j;
-      cells[index].value = grid[i][j] === 0 ? '' : grid[i][j];
-      cells[index].readOnly = grid[i][j] !== 0;
+      cells[index].value = grid[i][j] === 0 ? "" : grid[i][j];
+      if (lockInitial && grid[i][j] !== 0) {
+        cells[index].readOnly = true;
+        cells[index].classList.add("given");
+      }
     }
   }
 }
@@ -65,31 +78,30 @@ function solve(grid) {
 function solveSudoku() {
   const grid = getGrid();
   if (solve(grid)) {
-    setGrid(grid);
+    setGrid(grid); // only fill solution, don’t lock
   } else {
-    alert('No solution exists!');
+    alert("No solution exists!");
   }
 }
 
 function clearGrid() {
-  const cells = document.querySelectorAll('#sudoku-grid input');
+  const cells = document.querySelectorAll("#sudoku-grid input");
   cells.forEach(cell => {
-    if (!cell.readOnly) {
-      cell.value = '';
-    }
+    if (!cell.readOnly) cell.value = "";
   });
 }
 
 function resetGrid() {
-  const cells = document.querySelectorAll('#sudoku-grid input');
+  const cells = document.querySelectorAll("#sudoku-grid input");
   cells.forEach(cell => {
-    cell.value = '';
+    cell.value = "";
     cell.readOnly = false;
+    cell.classList.remove("given");
   });
 }
 
-// Dark Mode Toggle
-const toggle = document.getElementById('darkModeToggle');
-toggle.addEventListener('change', () => {
-  document.body.classList.toggle('dark-mode');
+// === Dark Mode Toggle ===
+const toggle = document.getElementById("darkModeToggle");
+toggle.addEventListener("change", () => {
+  document.body.classList.toggle("dark-mode", toggle.checked);
 });
